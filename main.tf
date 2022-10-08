@@ -1,24 +1,9 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-
-  required_version = ">= 1.2.0"
-}
-
-provider "aws" {
-  region  = "us-west-2"
-}
-
 resource "aws_instance" "app_server" {
   ami           = "ami-830c94e3"
   instance_type = "t2.micro"
   key_name = aws_key_pair.deployer.id
   tags = {
-    Name = "terraform demo"
+    Name = var.tagname
   }
   user_data = "${file("install_apache.sh")}"
 }
